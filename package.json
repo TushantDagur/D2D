@@ -1,0 +1,26 @@
+{
+  "name": "d2d",
+  "version": "1.0.0",
+  "description": "D2D — 30-Minute On-Demand Healthcare Service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TushantDagur/D2D.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/TushantDagur/D2D/issues"
+  },
+  "homepage": "https://github.com/TushantDagur/D2D#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0"
+  }
+}
