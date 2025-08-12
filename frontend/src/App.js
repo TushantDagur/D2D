@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 function App() {
   const [message, setMessage] = useState('');
@@ -11,9 +13,13 @@ function App() {
   }, []);
 
   return (
-    <div style={{ textAlign: 'center', paddingTop: '50px' }}>
-      <h1>D2D — On-Demand Healthcare</h1>
-      <p>Backend says: {message}</p>
+    <div>
+      <Navbar />
+      <main className="text-center p-8">
+        <h1 className="text-3xl font-bold">D2D — On-Demand Healthcare</h1>
+        <p className="mt-4">{message}</p>
+      </main>
+      <Footer />
     </div>
   );
 }
