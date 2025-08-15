@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
 });
 
 // Add a user
-router.post("/", createUser);
+router.post("/signup", createUser);
 router.post('/login', loginUser)
 
 module.exports = router;
