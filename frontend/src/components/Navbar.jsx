@@ -50,7 +50,7 @@ export default function Navbar() {
 
                 {/* Desktop Links */}
                 <div className="hidden md:flex items-center space-x-6 text-gray-400">
-                    <a href="#" className="hover:text-blue-500">Home</a>
+                    <a href="/#" className="hover:text-blue-500">Home</a>
                     <a href="#" className="hover:text-blue-500">Doctors</a>
                     <a href="#" className="hover:text-blue-500">Lab Tests</a>
                     <a href="#" className="hover:text-blue-500">Pharmacy</a>
@@ -62,8 +62,8 @@ export default function Navbar() {
                         <Phone size={14} />
                         <span>Emergency</span>
                     </button>
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-4 py-1">
-                        Login
+                    <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-4 py-1" >
+                        <a href="/signup">SignUp </a>
                     </button>
                 </div>
 
