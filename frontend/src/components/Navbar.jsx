@@ -63,7 +63,7 @@ export default function Navbar() {
                         <span>Emergency</span>
                     </button>
                     <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-4 py-1" >
-                        <a href="/signup">SignUp </a>
+                        <a href="/login">Log In </a>
                     </button>
                 </div>
 
