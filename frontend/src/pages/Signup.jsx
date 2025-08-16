@@ -65,7 +65,7 @@ export default function Signup() {
 
                 {/* Left Side Form */}
                 <div className="bg-white/60 backdrop-blur-md shadow-2xl rounded-2xl p-10 max-w-md animate-fadeIn flex-shrink-0">
-                    <h2 className="text-3xl font-bold text-blue-700 mb-6">Sign Up</h2>
+                    <h2 className="text-3xl font-bold text-center text-blue-700 mb-6">Sign Up</h2>
                     <form className="space-y-4" onSubmit={handleSubmit}>
                         <input
                             type="text"
@@ -121,3 +121,5 @@ export default function Signup() {
         </div>
     );
 }
+
+
