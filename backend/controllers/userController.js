@@ -54,7 +54,11 @@ const loginUser = async (req, res) => {
     // Example (requires 'jsonwebtoken' library and a secret key):
     /*
     */
-   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign(
+          { userId: user._id, email: user.email },
+          process.env.JWT_SECRET,
+          { expiresIn: "1h" }
+        );
     if (!user) {
     return sendResponse(res, 400, "Invalid credentials");
     }
