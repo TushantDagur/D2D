@@ -80,8 +80,8 @@ export default function Login() {
 
 
                 {/* Right Side Form */}
-                <div className="bg-white/60 backdrop-blur-md shadow-2xl rounded-2xl px-20 max-w-md animate-fadeIn flex-shrink-0">
-                    <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">Login</h2>
+                <div className="bg-white/60 backdrop-blur-md shadow-2xl rounded-2xl p-10 max-w-md animate-fadeIn flex-shrink-0">
+                    <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">Log In</h2>
                     <form className="space-y-4" onSubmit={handleSubmit}>
 
                         <input
@@ -90,7 +90,7 @@ export default function Login() {
                             placeholder="Email"
                             value={form.email}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none transition duration-300"
                         />
 
                         <input
@@ -99,10 +99,10 @@ export default function Login() {
                             placeholder="Password"
                             value={form.password}
                             onChange={handleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none transition duration-300"
                         />
 
-                        <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+                        <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-transform transform hover:scale-105 duration-300">
                             Login
                         </button>
 
