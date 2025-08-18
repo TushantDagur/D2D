@@ -31,7 +31,11 @@ export default function Login() {
 
         try {
             const response = await axios.post('http://localhost:5000/api/users/login', form);
-            toast.success(response.data.message);
+            // ✅ Store JWT token
+            localStorage.setItem("token", response.data.token);
+            toast.success("Login Successful ✅");
+            window.location.href = "/dashboard"; // redirect to dashboard
+
             setForm({
                 email: '',
                 password: '',
