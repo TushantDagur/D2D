@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
+import ServiceSection from "../components/ServiceSection";
 
 export default function Home(){
     return (
@@ -10,9 +11,12 @@ export default function Home(){
             <Navbar />
             <main className="flex-grow">
                 <Hero />
-                <section className="py-12 container mx-auto px-6">
-                    <h2 className="text-2xl font-bold text-gray-800">Our Services</h2>
-                    <p className="mt-2 text-gray-600">Quick, reliable, and verified medical services at your doorstep.</p>
+                <ServiceSection />
+                <section className="py-12 text-center  bg-slate-200 container mx-auto px-6">
+                    <h2 className="text-2 font-bold text-gray-800">Featues</h2>
+                    <p className="mt-4 text-gray-600">
+                        Explore our range of services designed to make healthcare accessible and convenient for you.
+                        </p>
                 </section>
             </main>
             <Footer />

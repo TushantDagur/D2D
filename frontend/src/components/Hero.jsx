@@ -5,9 +5,9 @@ import brigade from "../assets/brigade.gif";
 
 const Hero = () => {
     return (
-        <section className="bg-blue-50 py-10 px-6 text-center md:text-left md:flex md:items-center md:justify-between">
+        <section className="bg-blue-50 pt-16 px-6 text-center md:text-left md:flex md:items-center md:justify-between">
             <div className="md:w-1/2">
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-700 mb-4">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-700 my-4">
                     <span>
                         Healthcare at Your <span className="text-teal-600">Doorstep</span>{" "} 
                     <img src={ambulanceIcon} alt="Ambulance Icon" className="inline-block ml-2 w-12 h-12" />
@@ -17,11 +17,11 @@ const Hero = () => {
                     D2D connects you instantly to qualified doctors, book lab tests, and get medicines delivered. Your health, our priority – anytime, anywhere.
                 </p>
                 <div className="flex flex-col md:flex-row items-center md:justify-start gap-4 mt-6">
-                    <button className="flex items-center gap-2 px-6 py-3 rounded-full text-white bg-teal-600 hover:bg-teal-700 transition-colors">
+                    <button className="flex items-center gap-2 px-3 py-3 rounded-full text-white bg-teal-600 hover:bg-teal-700 transition-colors">
                         <img src={brigade} alt="Download App" className="w-6 h-6" />
                         Find Doctor Nearby
                     </button>
-                    <button className="flex items-center gap-2 px-6 py-3 rounded-full text-teal-600 border border-teal-600 hover:bg-teal-50 transition-colors">
+                    <button className="flex items-center gap-2 px-3 py-3 rounded-full text-teal-600 border border-teal-600 hover:bg-teal-50 transition-colors">
                         Download App
                     </button>
                 </div>
