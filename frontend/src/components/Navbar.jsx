@@ -62,7 +62,7 @@ export default function Navbar() {
                         <Phone size={14} />
                         <span>Emergency</span>
                     </button>
-                    <button className="bg-teal-500 hover:bg-blue-600 text-white rounded-full px-4 py-1" >
+                    <button className="bg-teal-500 hover:bg-teal-800 text-white rounded-full px-4 py-1" >
                         <a href="/login">Log In </a>
                     </button>
                 </div>
@@ -90,7 +90,7 @@ export default function Navbar() {
                     <span>Emergency</span>
                 </button>
 
-                <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-4 py-1 w-full">
+                <button className="bg-teal-500 hover:bg-teal-800 text-white rounded-full px-4 py-1 w-full">
                     Login
                 </button>
             </div>
