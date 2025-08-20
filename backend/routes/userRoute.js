@@ -2,7 +2,8 @@ const express = require("express");
 const User = require("../models/User");
 const router = express.Router();
 
-const {createUser, loginUser} = require('../controllers/userController')
+const {registerUser, loginUser, getMe} = require('../controllers/userController');
+const authMiddleware = require("../middleware/authMiddleware");
 
 // Get all users
 router.get("/", async (req, res) => {
@@ -11,7 +12,8 @@ router.get("/", async (req, res) => {
 });
 
 // Add a user
-router.post("/register", createUser);
+router.post("/register", registerUser);
 router.post('/login', loginUser)
+router.get('/me', authMiddleware, getMe)
 
 module.exports = router;
