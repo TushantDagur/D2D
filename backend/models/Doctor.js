@@ -1,10 +1,37 @@
-const { default: mongoose } = require('mongoose')
-const mmongoose = require('mongoose')
+// models/Doctor.js
+const  mongoose =  require("mongoose");
 
-    const doctorSchema = new mmongoose.Schema({
-        name: String,
-        specialization: String,
-        available: Boolean
-    })
+const doctorSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  specialization: {
+    type: String,
+    required: true,
+  },
+  experience: {
+    type: Number,
+    default: 0,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  phone: {
+    type: String,
+  },
+  availableSlots: [
+    {
+      type: Date,
+    },
+  ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-module.exports = mongoose.model("Doctor", doctorSchema)
+const Doctor = mongoose.model("Doctor", doctorSchema);
+module.exports = Doctor
