@@ -1,7 +1,8 @@
 import {useState} from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
-import bgImage from "../assets/signup-bg1.jpg";
+// import Footer from "../components/Footer";
+import bgImage from "../assets/signup-bg.jpg";
 import heartIcon from "../assets/icons/heartbeat.gif";
 import pillIcon from "../assets/icons/pill.gif";
 import stethoscopeIcon from "../assets/icons/health-checkup.gif";

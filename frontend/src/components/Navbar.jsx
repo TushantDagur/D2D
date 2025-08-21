@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Phone, Menu, X } from "lucide-react";
+import logo from '../assets/logo2.png';
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -23,29 +24,8 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
                 {/* Logo & Brand */}
                 <div className="flex items-center space-x-2">
-                    <div className="bg-blue-500 p-2 rounded-xl">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={2}
-                            stroke="white"
-                            className="w-5 h-5"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 
-                  2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 
-                  3.41 0.81 4.5 2.09C13.09 3.81 14.76 
-                  3 16.5 3 19.58 3 22 5.42 22 8.5c0 
-                  3.78-3.4 6.86-8.55 11.54L12 21.35z"
-                            />
-                        </svg>
-                    </div>
-                    <span className="font-bold text-blue-500 text-lg">
-                        D2D
-                    </span>
+                        <img src={logo} alt="Logo" className="h-11 w-11" />
+                    <span className="text-xl font-bold text-[#819690]">D2D</span>
                 </div>
 
                 {/* Desktop Links */}
@@ -62,7 +42,7 @@ export default function Navbar() {
                         <Phone size={14} />
                         <span>Emergency</span>
                     </button>
-                    <button className="bg-teal-500 hover:bg-teal-800 text-white rounded-full px-4 py-1" >
+                    <button className="bg-[#819690] hover:bg-teal-800 text-white rounded-full px-4 py-1" >
                         <a href="/login">Log In </a>
                     </button>
                 </div>
@@ -90,7 +70,7 @@ export default function Navbar() {
                     <span>Emergency</span>
                 </button>
 
-                <button className="bg-teal-500 hover:bg-teal-800 text-white rounded-full px-4 py-1 w-full">
+                <button className="bg-[#819690]-500 hover:bg-teal-800 text-white rounded-full px-4 py-1 w-full">
                     Login
                 </button>
             </div>
