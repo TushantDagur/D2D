@@ -60,7 +60,7 @@ export default function Navbar() {
                 className={`md:hidden px-6 space-y-3 transition-all duration-300 ease-in-out ${isOpen ? "max-h-96 opacity-100 py-3" : "max-h-0 opacity-0 py-0"
                     } overflow-hidden`}
             >
-                <a href="#" className="block text-gray-400 hover:text-blue-500">Home</a>
+                <a href="/#" className="block text-gray-400 hover:text-blue-500">Home</a>
                 <a href="#" className="block text-gray-400 hover:text-blue-500">Doctors</a>
                 <a href="#" className="block text-gray-400 hover:text-blue-500">Lab Tests</a>
                 <a href="#" className="block text-gray-400 hover:text-blue-500">Pharmacy</a>
@@ -70,8 +70,8 @@ export default function Navbar() {
                     <span>Emergency</span>
                 </button>
 
-                <button className="bg-[#819690]-500 hover:bg-teal-800 text-white rounded-full px-4 py-1 w-full">
-                    Login
+                <button className="bg-[#819690] hover:bg-teal-800 text-white rounded-full px-4 py-1 w-full">
+                    <a href="/login">Log In </a>
                 </button>
             </div>
         </nav>
