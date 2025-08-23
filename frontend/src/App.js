@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import axios from 'axios';
-import Home from "./pages/Home";
+import Home from "./pages/page";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Dashboard from "./pages/dashboard";
+import Dashboard from "./pages/dashboard/page";
 
 function App() {
   const [message, setMessage] = useState('');
