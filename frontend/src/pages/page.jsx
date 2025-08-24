@@ -13,7 +13,7 @@ export default function Home(){
                 <Hero />
                 <ServiceSection />
                 <section className="py-12 text-center  bg-slate-200 container mx-auto px-6">
-                    <h2 className="text-2 font-bold text-gray-800">Featues</h2>
+                    <h2 className="text-2 font-bold text-gray-800">Features</h2>
                     <p className="mt-4 text-gray-600">
                         Explore our range of services designed to make healthcare accessible and convenient for you.
                         </p>
