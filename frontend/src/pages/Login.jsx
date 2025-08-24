@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/landing/Navbar';
 import bgImage from '../assets/login-bg.png';
 import heartIcon from '../assets/icons/heartbeat.gif';
 import pillIcon from '../assets/icons/pill.gif';
