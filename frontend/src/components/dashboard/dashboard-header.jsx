@@ -1,9 +1,9 @@
-"use client"
+// "use client"
 
 import { useEffect, useState } from "react"
 import axios from "axios";
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "../ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,9 +11,9 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "../ui/dropdown-menu"
 import { Bell, Settings, LogOut, User } from "lucide-react"
-import {icon} from "../../assets/logo.png"
+import logo from "../../assets/logo.png"
 
 
 const DashboardHeader = () => {
@@ -36,12 +36,12 @@ const DashboardHeader = () => {
     }
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header className="sticky mt-0 top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                     <div className="flex items-center">
-                        <icon/>
-                        <h1 className="text-2xl font-bold text-primary">D2D</h1>
+                        <img src={logo} alt="Logo" className="h-11 w-11" />
+                        <h1 className="text-2xl font-bold text-primary ml-2">D2D</h1>
                     </div>
 
                     <div className="flex items-center space-x-4">
@@ -86,5 +86,7 @@ const DashboardHeader = () => {
                 </div>
             </div>
         </header>
-    )
+    );
 }
+
+export default DashboardHeader;
