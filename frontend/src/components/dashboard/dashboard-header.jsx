@@ -13,7 +13,7 @@ import {
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
 import { Bell, Settings, LogOut, User } from "lucide-react"
-import logo from "../../assets/logo.png"
+import logo from "../../assets/navBarLogo.png"
 
 
 const DashboardHeader = () => {

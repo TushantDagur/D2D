@@ -1,11 +1,11 @@
 import {useState} from "react";
 import axios from "axios";
 import Navbar from "../components/landing/Navbar";
-import bgImage from "../assets/signup-bg.jpg";
-import heartIcon from "../assets/icons/heartbeat.gif";
-import pillIcon from "../assets/icons/pill.gif";
-import stethoscopeIcon from "../assets/icons/health-checkup.gif";
-import hospitalIcon from "../assets/icons/doctors-office.gif";
+import bgImage from "../assets/signupBg.jpg";
+import heartIcon from "../assets/icons/heartBeats.gif";
+import pillIcon from "../assets/icons/pills.gif";
+import stethoscopeIcon from "../assets/icons/healthCheckup.gif";
+import hospitalIcon from "../assets/icons/doctorsOffice.gif";
 
 
 export default function Signup() {

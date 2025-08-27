@@ -3,10 +3,10 @@
 import { Card,CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card"
 import { Button } from "../../components/ui/button"
 import { Badge } from "../../components/ui/badge"
-import brigade from "../../assets/brigade.gif"
-import lab from "../../assets/labReport.gif"
-import pill from "../../assets/pill.gif"
-import psychology from "../../assets/PsychologyConsultation.gif"
+import brigade from "../../assets/drs.gif"
+import lab from "../../assets/labReports.gif"
+import pill from "../../assets/landingPill.gif"
+import psychology from "../../assets/psychologyConsulting.gif"
 
 export function ServicesSection() {
     const services = [

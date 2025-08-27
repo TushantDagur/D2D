@@ -1,10 +1,10 @@
 // "use client"
 import React from "react"
 import { Stethoscope, FlaskConical, Pill, Brain } from "lucide-react"
-import brigade from "../../assets/brigade.gif"
-import lab from "../../assets/labReport.gif"
-import pill from "../../assets/pill.gif"
-import psychology from "../../assets/PsychologyConsultation.gif"
+import brigade from "../../assets/drs.gif"
+import lab from "../../assets/labReports.gif"
+import pill from "../../assets/landingPill.gif"
+import psychology from "../../assets/psychologyConsulting.gif"
 import { Link } from "react-router-dom"
 
 export function ServicesSection() {

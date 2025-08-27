@@ -3,6 +3,7 @@ import StatsCards from "../../components/dashboard/stats-cards";
 import {RecentActivity} from "../../components/dashboard/recent-activity";
 import {ServicesSection} from "../../components/dashboard/service-section";
 
+
 const Dashboard = () => {
     return (
         <div className="bg-gray-100 min-h-screen">

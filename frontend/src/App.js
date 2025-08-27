@@ -6,8 +6,10 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/dashboard/page";
 
+
 function App() {
   const [message, setMessage] = useState('');
+
 
   useEffect(() => {
     axios.get('http://localhost:5000/')

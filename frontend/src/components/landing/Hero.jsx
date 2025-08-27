@@ -1,7 +1,7 @@
 import React from "react";
-import ambulanceIcon from "../../assets/ambulance.gif"; 
-import healthcareIllustration from "../../assets/Healthcare-illustration1.png";
-import brigade from "../../assets/brigade.gif";
+import ambulanceIcon from "../../assets/ambulance_.gif"; 
+import healthcareIllustration from "../../assets/HealthcareIllustration.png";
+import brigade from "../../assets/drs.gif";
 
 const Hero = () => {
     return (

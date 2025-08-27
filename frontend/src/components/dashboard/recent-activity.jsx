@@ -1,5 +1,3 @@
-// src/components/dashboard/recent-activity.jsx
-
 "use client";
 
 import { useEffect, useState } from "react";

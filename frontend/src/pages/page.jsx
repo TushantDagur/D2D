@@ -5,6 +5,7 @@ import Footer from "../components/landing/Footer";
 import Hero from "../components/landing/Hero";
 import ServiceSection from "../components/landing/ServiceSection";
 
+
 export default function Home(){
     return (
         <div className='flex flex-col min-h-screen'>

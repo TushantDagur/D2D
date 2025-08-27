@@ -3,13 +3,11 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from '../components/landing/Navbar';
-import bgImage from '../assets/login-bg.png';
-import heartIcon from '../assets/icons/heartbeat.gif';
-import pillIcon from '../assets/icons/pill.gif';
-import stethoscopeIcon from '../assets/icons/health-checkup.gif';
-import hospitalIcon from '../assets/icons/doctors-office.gif';
-
-
+import bgImage from '../assets/loginBg.png';
+import heartIcon from '../assets/icons/heartBeats.gif';
+import pillIcon from '../assets/icons/pills.gif';
+import stethoscopeIcon from '../assets/icons/healthCheckup.gif';
+import hospitalIcon from '../assets/icons/doctorsOffice.gif';
 
 export default function Login() {
     const [form, setForm] = useState({
