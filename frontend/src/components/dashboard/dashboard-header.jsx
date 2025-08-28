@@ -23,7 +23,7 @@ const DashboardHeader = () => {
         const token = localStorage.getItem("token");
         
         axios
-            .get("http://localhost:5000/api/user", {
+            .get("http://localhost:5000/api/users/me", {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((res) => setUser(res.data))
@@ -32,8 +32,26 @@ const DashboardHeader = () => {
 
     const handleLogout = () => {
         // Redirect to home page on logout
+        localStorage.removeItem("token");
         window.location.href = "/"
     }
+
+    // ✨ Helper to generate initials, handles cases where user data isn't loaded yet
+    const getInitials = () => {
+        if (user && user.name) {
+            const nameParts = user.name.split(' ');
+
+            if (nameParts.length > 1) {
+                const firstInitial = nameParts[0].charAt(0);
+                const lastInitial = nameParts[nameParts.length - 1].charAt(0); // Takes the last part for names with middle names
+                return `${firstInitial}${lastInitial}`.toUpperCase();
+            }
+            else if (nameParts.length === 1 && nameParts[0] !== '') {
+                return nameParts[0].charAt(0).toUpperCase();
+            }
+        }
+        return "U";
+    };
 
     return (
         <header className="sticky mt-0 top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -55,16 +73,24 @@ const DashboardHeader = () => {
                                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                                     <Avatar className="h-8 w-8">
                                         <AvatarImage src="/generic-user-avatar.png" alt="User" />
-                                        <AvatarFallback>JD</AvatarFallback>
+                                        <AvatarFallback>{getInitials()}</AvatarFallback>
                                     </Avatar>
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-56" align="end" forceMount>
                                 <DropdownMenuLabel className="font-normal">
-                                    <div className="flex flex-col space-y-1">
-                                        <p className="text-sm font-medium leading-none">John Doe</p>
-                                        <p className="text-xs leading-none text-muted-foreground">john.doe@example.com</p>
-                                    </div>
+                                    {user ? (
+                                        <div className="flex flex-col space-y-1">
+                                            {/* ✨ MODIFIED: Now using user.name */}
+                                            <p className="text-sm font-medium leading-none">{user.name}</p>
+                                            <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                                        </div>
+                                    ) : (
+                                        <div className="flex flex-col space-y-2">
+                                            <div className="h-4 bg-muted rounded w-3/4"></div>
+                                            <div className="h-3 bg-muted rounded w-full"></div>
+                                        </div>
+                                    )}
                                 </DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem>
