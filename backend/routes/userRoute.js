@@ -15,5 +15,4 @@ router.get("/", async (req, res) => {
 router.post("/register", registerUser);
 router.post('/login', loginUser)
 router.get('/me', authMiddleware, getMe)
-
 module.exports = router;
