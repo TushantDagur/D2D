@@ -3,6 +3,7 @@ import { Card,CardHeader, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge"
 import { Star, MapPin, Clock, Phone, Video, Navigation } from "lucide-react"
+import placeHolder from "../../assets/placeholder.svg"
 
 
 export function DoctorsList({ filters }) {
@@ -86,7 +87,7 @@ export function DoctorsList({ filters }) {
                     <CardHeader className="pb-4">
                         <div className="flex items-start space-x-4">
                             <img
-                                src={doctor.image || "/placeholder.svg"}
+                                src={doctor.image || placeHolder}
                                 alt={doctor.name}
                                 className="w-20 h-20 rounded-lg object-cover"
                             />
@@ -122,10 +123,10 @@ export function DoctorsList({ filters }) {
                                 <span>{doctor.experience}</span>
                             </div>
                             <div className="text-muted-foreground">
-                                Fee: <span className="font-medium text-foreground">${doctor.consultationFee}</span>
+                                Fee: <span className="text-foreground">₹{doctor.consultationFee}</span>
                             </div>
                             <div className="text-muted-foreground">
-                                Next: <span className="font-medium text-foreground">{doctor.nextSlot}</span>
+                                Next: <span className="text-foreground">{doctor.nextSlot}</span>
                             </div>
                         </div>
                         <div className="flex space-x-2">
