@@ -100,7 +100,7 @@ export function ServiceFilters({ type, onApplyFilters }) {
                                     <Checkbox 
                                         id={`specialty-${index}`} 
                                         checked = {selectedSpecialties.includes(item)}
-                                        onCheckedRange= {() => handleSpecialtyChange(item)}
+                                        onCheckedChange= {() => handleSpecialtyChange(item)}
                                     />
                                     <Label htmlFor={`specialty-${index}`} className="text-sm">
                                         {item}
