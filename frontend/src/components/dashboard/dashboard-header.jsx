@@ -15,12 +15,13 @@ import {
 import { Bell, Settings, LogOut, User } from "lucide-react"
 import logo from "../../assets/navBarLogo.png"
 
+
 const DashboardHeader = () => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-
+        
         axios
             .get("http://localhost:5000/api/users/me", {
                 headers: { Authorization: `Bearer ${token}` },
@@ -30,18 +31,19 @@ const DashboardHeader = () => {
     }, []);
 
     const handleLogout = () => {
+        // Redirect to home page on logout
         localStorage.removeItem("token");
         window.location.href = "/"
     }
 
-    // ✅ Make sure the function is named getInitials
+    // ✨ Helper to generate initials, handles cases where user data isn't loaded yet
     const getInitials = () => {
         if (user && user.name) {
             const nameParts = user.name.split(' ');
 
             if (nameParts.length > 1) {
                 const firstInitial = nameParts[0].charAt(0);
-                const lastInitial = nameParts[nameParts.length - 1].charAt(0);
+                const lastInitial = nameParts[nameParts.length - 1].charAt(0); // Takes the last part for names with middle names
                 return `${firstInitial}${lastInitial}`.toUpperCase();
             }
             else if (nameParts.length === 1 && nameParts[0] !== '') {
@@ -70,8 +72,7 @@ const DashboardHeader = () => {
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                                     <Avatar className="h-8 w-8">
-                                        <AvatarImage src={user?.avatarUrl || "/generic-user-avatar.png"} alt="User" />
-                                        {/* ✅ Make sure you CALL the function correctly with () */}
+                                        <AvatarImage src="/generic-user-avatar.png" alt="User" />
                                         <AvatarFallback>{getInitials()}</AvatarFallback>
                                     </Avatar>
                                 </Button>
@@ -80,6 +81,7 @@ const DashboardHeader = () => {
                                 <DropdownMenuLabel className="font-normal">
                                     {user ? (
                                         <div className="flex flex-col space-y-1">
+                                            {/* ✨ MODIFIED: Now using user.name */}
                                             <p className="text-sm font-medium leading-none">{user.name}</p>
                                             <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
                                         </div>

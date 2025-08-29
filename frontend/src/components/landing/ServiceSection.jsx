@@ -1,11 +1,9 @@
 // "use client"
 import React from "react"
-import { Stethoscope, FlaskConical, Pill, Brain } from "lucide-react"
 import brigade from "../../assets/drs.gif"
 import lab from "../../assets/labReports.gif"
 import pill from "../../assets/landingPill.gif"
 import psychology from "../../assets/psychologyConsulting.gif"
-import { Link } from "react-router-dom"
 
 export function ServicesSection() {
     const handleServiceClick = () => {
