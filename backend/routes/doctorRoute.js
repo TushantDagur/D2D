@@ -1,18 +1,9 @@
-const express = require("express");
-const Doctor = require("../models/Doctor");
+const express = require('express')
+const {getDoctors, postDoctors} = require('../controllers/doctorController') 
+const Doctor = require('../models/Doctor')
 const router = express.Router();
 
-// Get all doctors
-router.get("/", async (req, res) => {
-  const doctors = await Doctor.find();
-  res.json(doctors);
-});
+router.get("/", getDoctors);
+router.post("/", postDoctors)
 
-// Add a doctor
-router.post("/", async (req, res) => {
-  const doctor = new Doctor(req.body);
-  await doctor.save();
-  res.json({ message: "Doctor added", doctor });
-});
-
-module.exports = router;
+module.exports = router
