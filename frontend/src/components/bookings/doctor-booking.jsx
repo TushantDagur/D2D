@@ -1,33 +1,73 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
-import { toast } from 'react-toastify'; 
-
+import { toast } from 'react-toastify';
+import placeHolder from "../../assets/placeholder.svg";
 
 export default function DoctorBooking({ isOpen, onClose, doctor, user }) {
-    const [date, setDate] = useState(new Date());
-    const [time, setTime] = useState("");
+    // State for the form fields
+    const [bookingDetails, setBookingDetails] = useState({
+        date: new Date(),
+        selectedTime: "",
+        patientName: user?.name || "",
+        patientAge: "",
+        patientSex: "Male",
+        patientContact: "",
+        reason: "",
+    });
+
+    // State to manage UI
+    const [availableTimes, setAvailableTimes] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    // This effect updates the available time slots whenever the date changes
+    useEffect(() => {
+        if (doctor?.availableSlots) {
+            const selectedDateString = bookingDetails.date.toISOString().split("T")[0];
+            const slotsForDate = doctor.availableSlots.find(slot => slot.date === selectedDateString);
+            setAvailableTimes(slotsForDate ? slotsForDate.times : []);
+            setBookingDetails(prev => ({ ...prev, selectedTime: "" })); // Reset selected time when date changes
+        }
+    }, [bookingDetails.date, doctor]);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setBookingDetails(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleDateChange = (date) => {
+        setBookingDetails(prev => ({ ...prev, date }));
+    };
+
+    const handleTimeSelect = (time) => {
+        setBookingDetails(prev => ({ ...prev, selectedTime: time }));
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!bookingDetails.selectedTime) {
+            toast.error("Please select an available time slot.");
+            return;
+        }
         setLoading(true);
 
         const bookingData = {
-            userId: user?._id || "guest_user",
-            userName: user?.name || "Guest",
+            userId: user?._id,
             doctorId: doctor?._id,
-            doctorName: doctor?.name,
-            date: date.toISOString().split("T")[0],
-            time,
+            date: bookingDetails.date.toISOString().split("T")[0],
+            time: bookingDetails.selectedTime,
+            patientName: bookingDetails.patientName,
+            patientAge: bookingDetails.patientAge,
+            patientSex: bookingDetails.patientSex,
+            patientContact: bookingDetails.patientContact,
+            reason: bookingDetails.reason,
         };
 
         try {
-            // Change ApI according to ur api
             const res = await fetch("http://localhost:5000/api/bookings", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -35,78 +75,85 @@ export default function DoctorBooking({ isOpen, onClose, doctor, user }) {
             });
 
             if (res.ok) {
-                toast.success("Booking Confirmed ✅");
-                onClose(); // 👈 CHANGED: Close the modal on success
+                toast.success(`Appointment with ${doctor.name} confirmed!`);
+                onClose();
             } else {
-                toast.error("Booking Failed ❌");
+                const errorData = await res.json();
+                toast.error(errorData.message || "Booking Failed ❌");
             }
         } catch (err) {
             console.error(err);
             toast.error("Something went wrong.");
         }
-
         setLoading(false);
     };
 
     return (
         <AnimatePresence>
-            {/* 👈 CHANGED: Visibility is now controlled by the 'isOpen' prop */}
             {isOpen && (
                 <motion.div
-                    className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                 >
-                    <motion.div
-                        initial={{ scale: 0.8, opacity: 0, y: -50 }}
-                        animate={{ scale: 1, opacity: 1, y: 0 }}
-                        exit={{ scale: 0.8, opacity: 0, y: -50 }}
-                        transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                    >
-                        <Card className="w-[350px] p-4 rounded-2xl shadow-xl bg-white">
-                            <CardContent>
-                                <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                                    {/* 👈 CHANGED: Dynamic title with doctor's name */}
-                                    Book Appointment with {doctor?.name}
-                                </h2>
-                                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                                    {/* Date Picker */}
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-600">Select Date</label>
-                                        <DatePicker
-                                            selected={date}
-                                            onChange={(d) => setDate(d)}
-                                            className="w-full p-2 rounded-lg border border-gray-300"
-                                            minDate={new Date()}
-                                        />
+                    <Card className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-xl bg-white">
+                        <CardContent className="p-0">
+                            <form onSubmit={handleSubmit} className="flex flex-col md:flex-row">
+                                {/* Left Column: Doctor Info */}
+                                <div className="w-full md:w-1/3 bg-slate-50 p-6">
+                                    <img
+                                        src={doctor.image || placeHolder}
+                                        alt={doctor.name}
+                                        className="w-28 h-28 rounded-full object-cover mx-auto mb-4 border-4 border-white shadow-md"
+                                    />
+                                    <h2 className="text-2xl font-bold text-center text-gray-800">{doctor.name}</h2>
+                                    <p className="text-center text-primary font-medium mb-4">{doctor.specialty}</p>
+                                    <h3 className="font-semibold text-gray-700 mt-6 mb-2">About Doctor</h3>
+                                    <p className="text-sm text-gray-600 text-justify">{doctor.about || "No biography available."}</p>
+                                </div>
+
+                                {/* Right Column: Booking Form */}
+                                <div className="w-full md:w-2/3 p-6 space-y-4">
+                                    <h2 className="text-xl font-semibold text-gray-800">Patient Information</h2>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <input name="patientName" value={bookingDetails.patientName} onChange={handleInputChange} placeholder="Full Name" className="form-input" required />
+                                        <input name="patientContact" value={bookingDetails.patientContact} onChange={handleInputChange} placeholder="Contact Number" className="form-input" required />
+                                        <input name="patientAge" type="number" value={bookingDetails.patientAge} onChange={handleInputChange} placeholder="Age" className="form-input" required />
+                                        <select name="patientSex" value={bookingDetails.patientSex} onChange={handleInputChange} className="form-input" required>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
+                                    <textarea name="reason" value={bookingDetails.reason} onChange={handleInputChange} placeholder="Reason for Consultation" className="form-input w-full min-h-[80px]" required></textarea>
+
+                                    <h2 className="text-xl font-semibold text-gray-800 pt-4">Select Slot</h2>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <DatePicker selected={bookingDetails.date} onChange={handleDateChange} className="form-input w-full" minDate={new Date()} />
+                                        <div className="p-2 border rounded-lg h-32 overflow-y-auto">
+                                            <div className="grid grid-cols-3 gap-2">
+                                                {availableTimes.length > 0 ? availableTimes.map(time => (
+                                                    <Button
+                                                        key={time}
+                                                        type="button"
+                                                        variant={bookingDetails.selectedTime === time ? "default" : "outline"}
+                                                        onClick={() => handleTimeSelect(time)}
+                                                    >
+                                                        {time}
+                                                    </Button>
+                                                )) : <p className="col-span-3 text-sm text-center text-gray-500">No slots available for this date.</p>}
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    {/* Time Picker */}
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-600">Select Time</label>
-                                        <input
-                                            type="time"
-                                            value={time}
-                                            onChange={(e) => setTime(e.target.value)}
-                                            className="w-full p-2 rounded-lg border border-gray-300"
-                                            required
-                                        />
+                                    {/* Action Buttons */}
+                                    <div className="flex justify-end gap-4 pt-4">
+                                        <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
+                                        <Button type="submit" disabled={loading}>{loading ? "Booking..." : "Confirm Appointment"}</Button>
                                     </div>
-
-                                    {/* Buttons */}
-                                    <div className="flex justify-between">
-                                        <Button type="button" variant="outline" onClick={onClose}>
-                                            Cancel
-                                        </Button>
-                                        <Button type="submit" disabled={loading}>
-                                            {loading ? "Booking..." : "Confirm"}
-                                        </Button>
-                                    </div>
-                                </form>
-                            </CardContent>
-                        </Card>
-                    </motion.div>
+                                </div>
+                            </form>
+                        </CardContent>
+                    </Card>
                 </motion.div>
             )}
         </AnimatePresence>

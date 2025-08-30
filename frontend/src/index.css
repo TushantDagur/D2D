@@ -49,3 +49,7 @@
         --ring: 212.7 26.8% 83.9%;
     }
 }
+
+.form-input {
+    @apply w-full p-2 rounded-lg border border-border bg-background focus:ring-2 focus:ring-primary focus:border-primary outline-none transition;
+}
