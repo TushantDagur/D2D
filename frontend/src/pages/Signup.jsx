@@ -1,5 +1,7 @@
 import {useState} from "react";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "../components/landing/Navbar";
 import bgImage from "../assets/signupBg.jpg";
 import heartIcon from "../assets/icons/heartBeats.gif";
@@ -31,8 +33,10 @@ export default function Signup() {
                 email: '',
                 password: '',   
             });
+            toast.success(response.data.message || "User Created Successfully!");
         }catch (err) {
-            setMessage(err.response ? err.response.data.message : "An error occurred");
+            const errorMessage = err.response ? err.response.data.message : "An error occurred";
+            toast.error(errorMessage);
         }
     };
 
@@ -66,6 +70,12 @@ export default function Signup() {
                 {/* Left Side Form */}
                 <div className="bg-white/60 backdrop-blur-md shadow-2xl rounded-2xl p-10 max-w-md animate-fadeIn flex-shrink-0">
                     <h2 className="text-3xl font-bold text-center text-blue-700 mb-6">Sign Up</h2>
+
+                    {message && (
+                        <p className="text-center text-sm p-2 mb-4 bg-gray-200 rounded-md">
+                            {message}
+                        </p>
+                    )}
                     <form className="space-y-4" onSubmit={handleSubmit}>
                         <input
                             type="text"
@@ -108,6 +118,7 @@ export default function Signup() {
                         </a>
                     </p>
                 </div>
+                <ToastContainer position="top-center" autoClose={3000} />
 
                 {/* Right Side Background Image */}
                 <div className="flex-1 relative h-full max-w-md">
