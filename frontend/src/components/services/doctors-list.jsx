@@ -4,11 +4,23 @@ import { Button } from "../ui/button";
 import { Badge } from "../ui/badge"
 import { Star, MapPin, Clock, Phone, Video, Navigation } from "lucide-react"
 import placeHolder from "../../assets/placeholder.svg"
+import DoctorBooking from "../bookings/doctor-booking";
 
 
 export function DoctorsList({ filters }) {
     const [doctors, setDoctors] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isBookingOpen, setIsBookingOpen] = useState(false);
+    const [selectedDoctor, setSelectedDoctor] = useState(null);
+    const [user, setUser] = useState(null); 
+
+    // useEffect(() => {
+    //     // In a real app, you would fetch the logged-in user's data
+    //     // For now, we'll use a placeholder.
+    //     const loggedInUser = { _id: "12345", name: "John Doe" };
+    //     setUser(loggedInUser);
+    // }, []);
+
 
     useEffect(() => {
         const fetchDoctors = async () => {
@@ -45,7 +57,13 @@ export function DoctorsList({ filters }) {
     }, [filters])
 
     const handleBookAppointment = (doctorId) => {
-        console.log(`Booking appointment with doctor ${doctorId}`)
+        setSelectedDoctor(doctorId);
+        setIsBookingOpen(true);
+    }
+
+    const handleCloseBooking = () => {
+        setIsBookingOpen(false);
+        setSelectedDoctor(null);
     }
 
     const handleVideoCall = (doctorId) => {
@@ -130,7 +148,7 @@ export function DoctorsList({ filters }) {
                             </div>
                         </div>
                         <div className="flex space-x-2">
-                            <Button className="flex-1" onClick={() => handleBookAppointment(doctor._id)}>
+                            <Button className="flex-1" onClick={() => handleBookAppointment(doctor)}>
                                 <Phone className="h-4 w-4 mr-2" />
                                 Book Appointment
                             </Button>
@@ -145,6 +163,12 @@ export function DoctorsList({ filters }) {
                     </CardContent>
                 </Card>
             ))}
+            <DoctorBooking
+                isOpen={isBookingOpen}
+                onClose={handleCloseBooking}
+                doctor={selectedDoctor}
+                user={user}
+            />
         </div>
     )
 }
