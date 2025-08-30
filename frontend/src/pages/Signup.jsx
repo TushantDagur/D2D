@@ -27,7 +27,7 @@ export default function Signup() {
         e.preventDefault();
         try{
             const response = await axios.post('http://localhost:5000/api/users/register', form);
-            setMessage(response.data.message);
+            // setMessage(response.data.message);
             setForm({
                 name: '',
                 email: '',
