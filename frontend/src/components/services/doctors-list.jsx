@@ -105,7 +105,7 @@ export function DoctorsList({ filters }) {
                     <CardHeader className="pb-4">
                         <div className="flex items-start space-x-4">
                             <img
-                                src={doctor.image || placeHolder}
+                                src={doctor.image || placeHolder.src}
                                 alt={doctor.name}
                                 className="w-20 h-20 rounded-lg object-cover"
                             />
