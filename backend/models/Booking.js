@@ -1,30 +1,32 @@
-const mongoose = require("mongoose") 
-const bookingSchema = new mongoose.Schema(
-  {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+const mongoose = require("mongoose")
+
+const bookingSchema = new mongoose.Schema({
+    userId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User', 
+        required: true 
     },
-    doctor: {
-      type: String,
-      required: true,
+    doctorId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Doctor', 
+        required: true 
     },
-    date: {
-      type: String, // example: "2025-08-20"
-      required: true,
-    },
-    time: {
-      type: String, // example: "10:30 AM"
-      required: true,
-    },
-    status: {
-      type: String,
-      enum: ["Pending", "Confirmed", "Cancelled"],
-      default: "Pending",
-    },
-  },
-  { timestamps: true }
-);
+    date: { type: String, required: true }, // Format: "YYYY-MM-DD"
+    time: { type: String, required: true }, // Format: "HH:MM"
+
+    // --- Patient Information from the Form ---
+    patientName: { type: String, required: true },
+    patientAge: { type: Number, required: true },
+    patientSex: { type: String, enum: ['Male', 'Female', 'Other'], required: true },
+    patientContact: { type: String, required: true },
+    reason: { type: String, required: true },
+    
+    status: { 
+        type: String, 
+        enum: ['Pending', 'Confirmed', 'Cancelled'], 
+        default: 'Confirmed' 
+    }
+
+}, { timestamps: true });
  
 module.exports = mongoose.model("Booking", bookingSchema);
