@@ -26,11 +26,27 @@ export default function DoctorBooking({ isOpen, onClose, doctor, user }) {
 
     // This effect updates the available time slots whenever the date changes
     useEffect(() => {
-        if (doctor?.availableSlots) {
+        let slots = doctor?.availableSlots;
+
+        // Check if the data is a string and parse it if necessary
+        if (typeof slots === 'string') {
+            try {
+                slots = JSON.parse(slots);
+            } catch (e) {
+                console.error("Failed to parse availableSlots string:", e);
+                slots = [];
+            }
+        }
+
+        if (slots && Array.isArray(slots)) {
             const selectedDateString = bookingDetails.date.toISOString().split("T")[0];
-            const slotsForDate = doctor.availableSlots.find(slot => slot.date === selectedDateString);
+            const slotsForDate = slots.find(slot => slot.date === selectedDateString);
             setAvailableTimes(slotsForDate ? slotsForDate.times : []);
             setBookingDetails(prev => ({ ...prev, selectedTime: "" })); // Reset selected time when date changes
+        } else {
+            // Handle cases where availableSlots is not an array or is missing
+            setAvailableTimes([]);
+            setBookingDetails(prev => ({ ...prev, selectedTime: "" }));
         }
     }, [bookingDetails.date, doctor]);
 
@@ -68,9 +84,15 @@ export default function DoctorBooking({ isOpen, onClose, doctor, user }) {
         };
 
         try {
+            // Get the token from local storage
+            const token = localStorage.getItem('token');
+
             const res = await fetch("http://localhost:5000/api/bookings", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                 },
                 body: JSON.stringify(bookingData),
             });
 
