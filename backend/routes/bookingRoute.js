@@ -6,16 +6,21 @@ const authMiddleware = require("../middleware/authMiddleware");
 // Create a booking
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    const { doctor, date, time } = req.body;
-
-    if (!doctor || !date || !time) {
+    const { doctorId, date, time, reason, patientContact, patientSex, patientAge, patientName,} = req.body;
+    console.log(req.body)
+    if (!doctorId || !date || !time) {
       return res.status(400).json({ message: "All fields are required" });
     }
-
+    // console.log(req.user.id)
     const booking = await Booking.create({
-      user: req.user.id,
-      doctor,
+      userId: req.user.id,
+      doctorId,
       date,
+      reason,
+      patientContact,
+      patientSex,
+      patientAge,
+      patientName,
       time,
     });
 
