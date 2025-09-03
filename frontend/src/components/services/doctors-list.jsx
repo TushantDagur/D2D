@@ -3,6 +3,8 @@ import { Card,CardHeader, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge"
 import { Star, MapPin, Clock, Phone, Video, Navigation } from "lucide-react"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import placeHolder from "../../assets/placeholder.svg"
 import DoctorBooking from "../bookings/doctor-booking";
 
@@ -89,6 +91,7 @@ export function DoctorsList({ filters }) {
     
     return (
         <div className="space-y-4">
+            <ToastContainer position="top-right" autoClose={5000} />
             <div className="flex items-left justify-between">
                 <h2 className="text-xl font-semibold">Available Doctors ({doctors.length})</h2>
                 <div className="flex items-center space-x-2">

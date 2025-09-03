@@ -6,8 +6,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { toast } from 'react-toastify';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import placeHolder from "../../assets/placeholder.svg";
 
 export default function DoctorBooking({ isOpen, onClose, doctor, user }) {
@@ -91,10 +89,10 @@ export default function DoctorBooking({ isOpen, onClose, doctor, user }) {
 
             const res = await fetch("http://localhost:5000/api/bookings", {
                 method: "POST",
-                headers: { 
+                headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
-                 },
+                },
                 body: JSON.stringify(bookingData),
             });
 
@@ -106,7 +104,8 @@ export default function DoctorBooking({ isOpen, onClose, doctor, user }) {
                 onClose();
             } else {
                 const errorData = await res.json();
-                toast.error(errorData.message || "Booking Failed ❌");
+                console.log("errorData.message");
+                toast.error("Booking Failed ❌");
             }
         } catch (err) {
             console.error(err);
@@ -179,11 +178,6 @@ export default function DoctorBooking({ isOpen, onClose, doctor, user }) {
                                     </div>
                                 </div>
                             </form>
-                            <ToastContainer
-                                position="top-right"
-                                autoClose={5000}
-                                hideProgressBar={false}
-                            />
                         </CardContent>
                     </Card>
                 </motion.div>
