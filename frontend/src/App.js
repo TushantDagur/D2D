@@ -5,7 +5,8 @@ import Home from "./pages/page";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/dashboard/page";
-import DoctorList from './pages/doctors/page';
+import Doctors from './pages/doctors/page';
+import Labs from './pages/labs/page'
 
 
 function App() {
@@ -25,7 +26,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path='/doctors' element={<DoctorList />} />
+        <Route path='/doctors' element={<Doctors />} />
+        <Route path='/labs' element={<Labs />} />
       </Routes>
     </Router>
   );
