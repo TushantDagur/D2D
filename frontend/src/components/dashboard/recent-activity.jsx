@@ -2,10 +2,8 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
-
 import { Calendar, MapPin, Clock, Stethoscope, Briefcase } from "lucide-react";
 
 

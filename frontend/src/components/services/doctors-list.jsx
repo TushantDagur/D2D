@@ -213,6 +213,9 @@ export function DoctorsList({ filters }) {
                 onClose={handleCloseBooking}
                 doctor={selectedDoctor}
                 user={user}
+                onBookingSuccess={(newBooking) => {
+                    setAppointments((prev) => [...prev, newBooking]);
+                }}
             />
         </div>
     );
