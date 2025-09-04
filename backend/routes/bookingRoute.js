@@ -33,7 +33,7 @@ router.post("/", authMiddleware, async (req, res) => {
 // Get all bookings of logged-in user
 router.get("/", authMiddleware, async (req, res) => {
   try {
-    const bookings = await Booking.find({ user: req.user.id }).sort({ createdAt: -1 });
+    const bookings = await Booking.find({ userId: req.user.id }).sort({ createdAt: -1 });
     res.json(bookings);
   } catch (err) {
     res.status(500).json({ message: err.message });
