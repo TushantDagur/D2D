@@ -55,7 +55,10 @@ export function DoctorsList({ filters }) {
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
-                const res = await fetch("http://localhost:5000/api/appointments");
+                const token = localStorage.getItem("token");
+                const res = await fetch("http://localhost:5000/api/bookings", {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
                 const data = await res.json();
                 setAppointments(data);
             } catch (error) {
@@ -143,7 +146,7 @@ export function DoctorsList({ filters }) {
                                                 </span>
                                             </div>
                                             <Badge
-                                                varient={isBooked ? "destructive" : "primary"}
+                                                varient={isBooked ? "destructive" : "secondary"}
                                                 className="text-xs"
                                             >
                                                 {isBooked ? "Booked" : doctor.availability}
