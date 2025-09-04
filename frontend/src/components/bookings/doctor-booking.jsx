@@ -96,15 +96,15 @@ export default function DoctorBooking({ isOpen, onClose, doctor, user }) {
                 body: JSON.stringify(bookingData),
             });
 
-            const data = await res.json();
+            // const data = await res.json();
 
             if (res.ok) {
                 console.log("Appointment Saved:", res);
                 toast.success(`Appointment with ${doctor.name} confirmed!`);
                 onClose();
-                if (onBookingSuccess) onBookingSuccess(data);
             } else {
-                console.log(data.message);
+                const errorData = await res.json();
+                console.log("errorData.message");
                 toast.error("Booking Failed ❌");
             }
         } catch (err) {
