@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Card,CardHeader, CardContent } from "../ui/card";
+import { Card, CardHeader, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge"
 import { Star, MapPin, Clock, Phone, Video, Navigation } from "lucide-react"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import placeHolder from "../../assets/placeholder.svg"
 import DoctorBooking from "../bookings/doctor-booking";
 
@@ -12,15 +14,8 @@ export function DoctorsList({ filters }) {
     const [loading, setLoading] = useState(true);
     const [isBookingOpen, setIsBookingOpen] = useState(false);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
-    const [user, setUser] = useState(null); 
-
-    // useEffect(() => {
-    //     // In a real app, you would fetch the logged-in user's data
-    //     // For now, we'll use a placeholder.
-    //     const loggedInUser = { _id: "12345", name: "John Doe" };
-    //     setUser(loggedInUser);
-    // }, []);
-
+    const [user, setUser] = useState(null);
+    const [appointments, setAppointments] = useState([]);
 
     useEffect(() => {
         const fetchDoctors = async () => {
@@ -56,8 +51,26 @@ export function DoctorsList({ filters }) {
         fetchDoctors()
     }, [filters])
 
-    const handleBookAppointment = (doctorId) => {
-        setSelectedDoctor(doctorId);
+    // Fetch appointments
+    useEffect(() => {
+        const fetchAppointments = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                const res = await fetch("http://localhost:5000/api/bookings", {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                const data = await res.json();
+                setAppointments(data);
+            } catch (error) {
+                console.error("Error fetching appointments:", error);
+                setAppointments([]);
+            }
+        };
+        fetchAppointments();
+    }, [isBookingOpen]); // re-fetch after booking closes
+
+    const handleBookAppointment = (doctor) => {
+        setSelectedDoctor(doctor);
         setIsBookingOpen(true);
     }
 
@@ -74,21 +87,12 @@ export function DoctorsList({ filters }) {
         window.location.href = `/map?provider=${doctorId}&type=doctor`
     }
 
-    if (loading) return <p>Loading doctors...</p> 
+    if (loading) return <p>Loading doctors...</p>
 
-    // Add a helpful message if no doctors match the filters
-    // if (!loading && doctors.length === 0) {
-    //     return (
-    //         <div className="text-center py-10">
-    //             <h3 className="text-xl font-semibold">No Doctors Found</h3>
-    //             <p className="text-muted-foreground mt-2">Try adjusting your filters to find more results.</p>
-    //         </div>
-    //     )
-    // }
 
-    
     return (
         <div className="space-y-4">
+            <ToastContainer position="top-right" autoClose={5000} />
             <div className="flex items-left justify-between">
                 <h2 className="text-xl font-semibold">Available Doctors ({doctors.length})</h2>
                 <div className="flex items-center space-x-2">
@@ -100,69 +104,110 @@ export function DoctorsList({ filters }) {
                 </div>
             </div>
 
-            {doctors.map((doctor) => (
-                <Card key={doctor._id} className="hover:shadow-lg transition-shadow">
-                    <CardHeader className="pb-4">
-                        <div className="flex items-start space-x-4">
-                            <img
-                                src={doctor.image || placeHolder.src}
-                                alt={doctor.name}
-                                className="w-20 h-20 rounded-lg object-cover"
-                            />
-                            <div className="flex-1">
-                                <div className="flex items-start justify-between">
-                                    <div>
-                                        <h3 className="text-lg font-semibold text-foreground">{doctor.name}</h3>
-                                        <p className="text-primary font-medium">{doctor.specialty}</p>
-                                        <p className="text-sm text-muted-foreground">{doctor.hospital}</p>
-                                    </div>
-                                    <div className="text-right">
-                                        <div className="flex items-center space-x-1 mb-1">
-                                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                                            <span className="text-sm font-medium">{doctor.rating}</span>
-                                            <span className="text-sm text-muted-foreground">({doctor.reviews})</span>
+            {doctors.map((doctor) => {
+                const doctorAppointments = appointments.filter(
+                    (appt) => appt.doctorId === doctor._id
+                );
+                const isBooked = doctorAppointments.length > 0;
+
+                return (
+                    <Card
+                        key={doctor._id}
+                        className="hover:shadow-lg transition-shadow"
+                    >
+                        <CardHeader className="pb-4">
+                            <div className="flex items-start space-x-4">
+                                <img
+                                    src={doctor.image || placeHolder}
+                                    alt={doctor.name}
+                                    className="w-20 h-20 rounded-lg object-cover"
+                                />
+                                <div className="flex-1">
+                                    <div className="flex items-start justify-between">
+                                        <div>
+                                            <h3 className="text-lg font-semibold text-foreground">
+                                                {doctor.name}
+                                            </h3>
+                                            <p className="text-primary font-medium">
+                                                {doctor.specialty}
+                                            </p>
+                                            <p className="text-sm text-muted-foreground">
+                                                {doctor.hospital}
+                                            </p>
                                         </div>
-                                        <Badge variant="secondary" className="text-xs">
-                                            {doctor.availability}
-                                        </Badge>
+                                        <div className="text-right">
+                                            <div className="flex items-center space-x-1 mb-1">
+                                                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                                                <span className="text-sm font-medium">
+                                                    {doctor.rating}
+                                                </span>
+                                                <span className="text-sm text-muted-foreground">
+                                                    ({doctor.reviews})
+                                                </span>
+                                            </div>
+                                            <Badge
+                                                varient={isBooked ? "destructive" : "secondary"}
+                                                className="text-xs"
+                                            >
+                                                {isBooked ? "Booked" : doctor.availability}
+                                            </Badge>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
-                            <div className="flex items-center space-x-1 text-muted-foreground">
-                                <MapPin className="h-4 w-4" />
-                                <span>{doctor.distance}</span>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
+                                <div className="flex items-center space-x-1 text-muted-foreground">
+                                    <MapPin className="h-4 w-4" />
+                                    <span>{doctor.distance}</span>
+                                </div>
+                                <div className="flex items-center space-x-1 text-muted-foreground">
+                                    <Clock className="h-4 w-4" />
+                                    <span>{doctor.experience}</span>
+                                </div>
+                                <div className="text-muted-foreground">
+                                    Fee:{" "}
+                                    <span className="text-foreground">
+                                        ₹{doctor.consultationFee}
+                                    </span>
+                                </div>
+                                <div className="text-muted-foreground">
+                                    Next: {" "}
+                                    <span className="text-foreground">
+                                        {doctor.nextSlot}
+                                    </span>
+                                </div>
                             </div>
-                            <div className="flex items-center space-x-1 text-muted-foreground">
-                                <Clock className="h-4 w-4" />
-                                <span>{doctor.experience}</span>
+                            <div className="flex space-x-2">
+                                <Button
+                                    className="flex-1"
+                                    onClick={() => handleBookAppointment(doctor)}
+                                    disabled={isBooked}
+                                >
+                                    <Phone className="h-4 w-4 mr-2" />
+                                    {isBooked ? "Already Booked" : "Book Appointment"}
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    className="flex-1 bg-transparent"
+                                    onClick={() => handleVideoCall(doctor._id)}
+                                >
+                                    <Video className="h-4 w-4 mr-2" />
+                                    Video Call
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handleViewOnMap(doctor._id)}
+                                >
+                                    <Navigation className="h-4 w-4" />
+                                </Button>
                             </div>
-                            <div className="text-muted-foreground">
-                                Fee: <span className="text-foreground">₹{doctor.consultationFee}</span>
-                            </div>
-                            <div className="text-muted-foreground">
-                                Next: <span className="text-foreground">{doctor.nextSlot}</span>
-                            </div>
-                        </div>
-                        <div className="flex space-x-2">
-                            <Button className="flex-1" onClick={() => handleBookAppointment(doctor)}>
-                                <Phone className="h-4 w-4 mr-2" />
-                                Book Appointment
-                            </Button>
-                            <Button variant="outline" className="flex-1 bg-transparent" onClick={() => handleVideoCall(doctor._id)}>
-                                <Video className="h-4 w-4 mr-2" />
-                                Video Call
-                            </Button>
-                            <Button variant="outline" size="sm" onClick={() => handleViewOnMap(doctor._id)}>
-                                <Navigation className="h-4 w-4" />
-                            </Button>
-                        </div>
-                    </CardContent>
-                </Card>
-            ))}
+                        </CardContent>
+                    </Card>
+                );
+            })}
             <DoctorBooking
                 isOpen={isBookingOpen}
                 onClose={handleCloseBooking}
@@ -170,5 +215,5 @@ export function DoctorsList({ filters }) {
                 user={user}
             />
         </div>
-    )
+    );
 }
