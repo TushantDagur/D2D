@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import axios from 'axios';
 import Home from "./pages/page";
-import AuthPage from "./pages/Auth";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import AuthPage from "./pages/auth/page";
 import Dashboard from "./pages/dashboard/page";
 import Doctors from './pages/doctors/page';
 import Labs from './pages/labs/page'
