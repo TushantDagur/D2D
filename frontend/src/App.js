@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import axios from 'axios';
 import Home from "./pages/page";
+import AuthPage from "./pages/Auth";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/dashboard/page";
@@ -23,8 +24,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/auth" element={<AuthPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path='/doctors' element={<Doctors />} />
         <Route path='/labs' element={<Labs />} />

@@ -43,7 +43,7 @@ export default function Navbar() {
                         <span>Emergency</span>
                     </button>
                     <button className="bg-[#819690] hover:bg-teal-800 text-white rounded-full px-4 py-1" >
-                        <a href="/login">Log In </a>
+                        <a href="/auth">Log In </a>
                     </button>
                 </div>
 
@@ -71,7 +71,7 @@ export default function Navbar() {
                 </button>
 
                 <button className="bg-[#819690] hover:bg-teal-800 text-white rounded-full px-4 py-1 w-full">
-                    <a href="/login">Log In </a>
+                    <a href="/auth">Log In </a>
                 </button>
             </div>
         </nav>
