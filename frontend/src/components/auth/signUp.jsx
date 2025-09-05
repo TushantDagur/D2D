@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from "../landing/Navbar";
+// import Navbar from "../landing/Navbar";
 import bgImage from "../../assets/signupBg.jpg";
 import heartIcon from "../../assets/icons/heartBeats.gif";
 import pillIcon from "../../assets/icons/pills.gif";
@@ -46,7 +46,7 @@ export default function Signup({ onToggleForm, onSignupSuccess }) {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <Navbar />
+            {/* <Navbar /> */}
             <div className="flex w-full max-w-6xl bg-transparent items-center justify-center gap-10">
 
                 {/* Floating Icons */}
