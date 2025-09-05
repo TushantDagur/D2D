@@ -8,7 +8,8 @@ const doctorRoutes = require("./routes/doctorRoute");
 const userRoutes = require("./routes/userRoute");
 const bookingRoutes = require("./routes/bookingRoute");
 const dashboardRoute = require("./routes/dashboardRoute");
-const labRoutes = require("./routes/labRoute"); // Add this line
+const labRoutes = require("./routes/labRoute");
+const labBookingRoutes = require("./routes/labBookingRoute"); // Add this line
 
 const app = express();
 
@@ -26,7 +27,8 @@ app.use("/api/doctors", doctorRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/dashboard", dashboardRoute);
-app.use("/api/labs", labRoutes); // Add this line
+app.use("/api/labs", labRoutes);
+app.use("/api/labbookings", labBookingRoutes); // Add this line
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
