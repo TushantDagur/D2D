@@ -34,4 +34,31 @@ router.get("/recentActivity", authMiddleware, async (req, res) => {
   }
 });
 
+router.get("/stats", authMiddleware, async (req, res) => {
+  try {
+    console.log(await Booking.findOne());
+    console.log(await Doctor.findOne());
+    const userId = req.user.id;
+
+    // Count only this user's appointments
+    const appointmentCount = await Booking.countDocuments({ userId });
+
+    // Count all doctors in system
+    const doctorCount = await Doctor.countDocuments();
+
+    // Placeholder: you can later calculate avg wait time or response
+    const avgResponseTime = "15 min";
+
+    res.json({
+      appointments: appointmentCount,
+      doctorsNearby: doctorCount,
+      avgResponseTime,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch stats" });
+  }
+});
+
+
 module.exports = router;
