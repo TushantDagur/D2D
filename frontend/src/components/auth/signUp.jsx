@@ -1,16 +1,15 @@
-import {useState} from "react";
+import { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from "../components/landing/Navbar";
-import bgImage from "../assets/signupBg.jpg";
-import heartIcon from "../assets/icons/heartBeats.gif";
-import pillIcon from "../assets/icons/pills.gif";
-import stethoscopeIcon from "../assets/icons/healthCheckup.gif";
-import hospitalIcon from "../assets/icons/doctorsOffice.gif";
+// import Navbar from "../landing/Navbar";
+import bgImage from "../../assets/signupBg.jpg";
+import heartIcon from "../../assets/icons/heartBeats.gif";
+import pillIcon from "../../assets/icons/pills.gif";
+import stethoscopeIcon from "../../assets/icons/healthCheckup.gif";
+import hospitalIcon from "../../assets/icons/doctorsOffice.gif";
 
-
-export default function Signup() {
+export default function Signup({ onToggleForm, onSignupSuccess }) {
     const [form, setForm] = useState({
         name: '',
         email: '',
@@ -20,21 +19,26 @@ export default function Signup() {
     const [message, setMessage] = useState("");
 
     const handleChange = (e) => {
-        setForm({...form, [e.target.name]: e.target.value});
+        setForm({ ...form, [e.target.name]: e.target.value });
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
+        try {
             const response = await axios.post('http://localhost:5000/api/users/register', form);
-            // setMessage(response.data.message);
             setForm({
                 name: '',
                 email: '',
-                password: '',   
+                password: '',
             });
-            toast.success(response.data.message || "User Created Successfully!");
-        }catch (err) {
+            toast.success(response.data.message || "User Created Successfully! Please log in.");
+
+            if (onSignupSuccess) {
+                setTimeout(() => {
+                    onSignupSuccess();
+                }, 1500); // Timeout gives the user time to read the success message
+            }
+        } catch (err) {
             const errorMessage = err.response ? err.response.data.message : "An error occurred";
             toast.error(errorMessage);
         }
@@ -42,7 +46,7 @@ export default function Signup() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <Navbar />
+            {/* <Navbar /> */}
             <div className="flex w-full max-w-6xl bg-transparent items-center justify-center gap-10">
 
                 {/* Floating Icons */}
@@ -113,9 +117,9 @@ export default function Signup() {
                     </form>
                     <p className="text-sm text-gray-600 mt-4 text-center">
                         Already have an account?{" "}
-                        <a href="/login" className="text-blue-600 hover:underline">
+                        <button type="button" onClick={onToggleForm} className="text-blue-600 hover:underline">
                             Log in
-                        </a>
+                        </button>
                     </p>
                 </div>
                 <ToastContainer position="top-center" autoClose={3000} />
@@ -132,5 +136,3 @@ export default function Signup() {
         </div>
     );
 }
-
-

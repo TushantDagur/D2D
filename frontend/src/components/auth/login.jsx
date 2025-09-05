@@ -2,18 +2,22 @@ import { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from '../components/landing/Navbar';
-import bgImage from '../assets/loginBg.png';
-import heartIcon from '../assets/icons/heartBeats.gif';
-import pillIcon from '../assets/icons/pills.gif';
-import stethoscopeIcon from '../assets/icons/healthCheckup.gif';
-import hospitalIcon from '../assets/icons/doctorsOffice.gif';
+// import Navbar from '../landing/Navbar';
+import bgImage from '../../assets/loginBg.png';
+import heartIcon from '../../assets/icons/heartBeats.gif';
+import pillIcon from '../../assets/icons/pills.gif';
+import stethoscopeIcon from '../../assets/icons/healthCheckup.gif';
+import hospitalIcon from '../../assets/icons/doctorsOffice.gif';
+import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+
+export default function Login({ onToggleForm }) {
     const [form, setForm] = useState({
         email: '',
         password: '',
     });
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -29,10 +33,13 @@ export default function Login() {
 
         try {
             const response = await axios.post('http://localhost:5000/api/users/login', form);
-            // ✅ Store JWT token
             localStorage.setItem("token", response.data.token);
             toast.success("Login Successful ✅");
-            window.location.href = "/dashboard"; // redirect to dashboard
+
+            // Use navigate for a smooth redirect without a page reload
+            setTimeout(() => {
+                navigate("/dashboard");
+            }, 1500); // Timeout allows the user to see the success message
 
             setForm({
                 email: '',
@@ -45,7 +52,7 @@ export default function Login() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <Navbar />
+            {/* <Navbar /> */}
             <div className="flex w-full max-w-6xl bg-transparent items-center justify-center gap-10">
 
                 {/* Floating Icons */}
@@ -109,10 +116,10 @@ export default function Login() {
                         </button>
 
                         <p className="text-sm text-gray-600 mt-4 text-center">
-                            Don’t have an account?{" "}
-                            <a href="/signup" className="text-blue-600 hover:underline">
+                            Don't have an account?{" "}
+                            <button type="button" onClick={onToggleForm} className="text-blue-600 hover:underline">
                                 Sign up
-                            </a>
+                            </button>
                         </p>
                     </form>
 
@@ -122,4 +129,3 @@ export default function Login() {
         </div>
     );
 }
-
