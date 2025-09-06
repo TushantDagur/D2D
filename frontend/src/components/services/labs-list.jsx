@@ -1,66 +1,89 @@
 "use client"
 
 import { Card, CardContent, CardHeader } from "../ui/card"
-import {Button}  from "../ui/button"
-import {Badge } from "../ui/badge"
+import { Button } from "../ui/button"
+import { Badge } from "../ui/badge"
 import { Star, MapPin, Clock, Calendar } from "lucide-react"
+import { useState, useEffect } from "react"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { LabBooking } from "../bookings/lab-booking";
 
 export function LabsList() {
-    const labs = [
-        {
-            id: 1,
-            name: "QuickLab Diagnostics",
-            rating: 4.6,
-            reviews: 89,
-            distance: "0.8 km",
-            availability: "Same Day",
-            image: "/medical-laboratory.png",
-            services: ["Blood Test", "X-Ray", "ECG"],
-            homeCollection: true,
-            timing: "6:00 AM - 10:00 PM",
-            reportTime: "Same Day",
-        },
-        {
-            id: 2,
-            name: "MediCore Lab Services",
-            rating: 4.8,
-            reviews: 156,
-            distance: "1.5 km",
-            availability: "Walk-in",
-            image: "/diagnostic-center.png",
-            services: ["MRI", "CT Scan", "Ultrasound"],
-            homeCollection: false,
-            timing: "24/7",
-            reportTime: "Next Day",
-        },
-        {
-            id: 3,
-            name: "HealthCheck Labs",
-            rating: 4.7,
-            reviews: 203,
-            distance: "2.3 km",
-            availability: "Home Collection",
-            image: "/health-lab.png",
-            services: ["Full Body Checkup", "Diabetes Panel", "Lipid Profile"],
-            homeCollection: true,
-            timing: "7:00 AM - 9:00 PM",
-            reportTime: "2-3 Days",
-        },
-    ]
+    const [labs, setLabs] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [isBookingOpen, setIsBookingOpen] = useState(false);
+    const [selectedLab, setSelectedLab] = useState(null);
+    const [currentUser, setCurrentUser] = useState(null);
 
-    const handleBookTest = (labId: number) => {
-        console.log(`Booking test at lab ${labId}`)
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const labsResponse = await fetch("http://localhost:5000/api/labs");
+                if (!labsResponse.ok) {
+                    throw new Error("Failed to fetch labs");
+                }
+                const labsData = await labsResponse.json();
+                setLabs(labsData);
+
+                // Fetch the current user's data using the stored token.
+                // NOTE: This assumes you have a protected backend route like `/api/users/profile`
+                // that returns the logged-in user's details.
+                const token = localStorage.getItem('token');
+                if (token) {
+                    const userResponse = await fetch("http://localhost:5000/api/users/profile", {
+                        headers: {
+                            "Authorization": `Bearer ${token}`
+                        }
+                    });
+                    if (userResponse.ok) {
+                        const userData = await userResponse.json();
+                        setCurrentUser(userData);
+                    }
+                }
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const handleBookTest = (lab) => {
+        setSelectedLab(lab);
+        setIsBookingOpen(true);
+    };
+
+    const handleCloseBooking = () => {
+        setIsBookingOpen(false);
+        setSelectedLab(null);
+    };
+
+    if (loading) {
+        return <div className="text-center text-lg">Loading labs...</div>;
+    }
+
+    if (error) {
+        return <div className="text-center text-lg text-red-500">Error: {error}</div>;
+    }
+
+    if (labs.length === 0) {
+        return <div className="text-center text-lg text-muted-foreground">No labs available at the moment.</div>;
     }
 
     return (
         <div className="space-y-6">
+            <ToastContainer position="top-right" autoClose={5000} />
             <div className="flex items-center justify-between">
                 <h2 className="text-xl font-semibold">Available Labs ({labs.length})</h2>
                 <div className="text-sm text-muted-foreground">Sorted by distance</div>
             </div>
 
             {labs.map((lab) => (
-                <Card key={lab.id} className="hover:shadow-lg transition-shadow">
+                <Card key={lab._id} className="hover:shadow-lg transition-shadow">
                     <CardHeader className="pb-4">
                         <div className="flex items-start space-x-4">
                             <img src={lab.image || "/placeholder.svg"} alt={lab.name} className="w-20 h-20 rounded-lg object-cover" />
@@ -112,7 +135,7 @@ export function LabsList() {
                             </div>
                         </div>
                         <div className="flex space-x-3">
-                            <Button className="flex-1" onClick={() => handleBookTest(lab.id)}>
+                            <Button className="flex-1" onClick={() => handleBookTest(lab)}>
                                 <Calendar className="h-4 w-4 mr-2" />
                                 Book Test
                             </Button>
@@ -121,6 +144,15 @@ export function LabsList() {
                     </CardContent>
                 </Card>
             ))}
+
+            {/* Render the lab booking modal */}
+            <LabBooking
+                isOpen={isBookingOpen}
+                onClose={handleCloseBooking}
+                lab={selectedLab}
+                user={currentUser}
+            />
         </div>
-    )
+    );
 }
+
