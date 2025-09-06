@@ -24,6 +24,12 @@ export default function DoctorBooking({ isOpen, onClose, doctor, user }) {
     const [availableTimes, setAvailableTimes] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        if (user?.name) {
+            setBookingDetails(prev => ({ ...prev, patientName: user.name }));
+        }
+    }, [user?.name]);
+
     // This effect updates the available time slots whenever the date changes
     useEffect(() => {
         let slots = doctor?.availableSlots;
@@ -104,7 +110,7 @@ export default function DoctorBooking({ isOpen, onClose, doctor, user }) {
                 onClose();
             } else {
                 const errorData = await res.json();
-                console.log("errorData.message");
+                console.log(errorData.message);
                 toast.error("Booking Failed ❌");
             }
         } catch (err) {
