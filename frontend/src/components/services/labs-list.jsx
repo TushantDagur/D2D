@@ -7,7 +7,7 @@ import { Star, MapPin, Clock, Calendar } from "lucide-react"
 import { useState, useEffect } from "react" 
 import { ToastContainer, toast } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
-import { LabBookingModal } from "../bookings/lab-booking-modal";
+import { LabBookingModal } from "../bookings/lab-booking";
 
 export function LabsList() {
     const [labs, setLabs] = useState([]);
