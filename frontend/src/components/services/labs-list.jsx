@@ -5,7 +5,7 @@ import { Button } from "../ui/button"
 import { Badge } from "../ui/badge"
 import { Star, MapPin, Clock, Calendar } from "lucide-react"
 import { useState, useEffect } from "react"
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LabBooking from "../bookings/lab-booking";
 
@@ -15,6 +15,7 @@ export function LabsList() {
     const [error, setError] = useState(null);
     const [isBookingOpen, setIsBookingOpen] = useState(false);
     const [selectedLab, setSelectedLab] = useState(null);
+    const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
         const fetchLabs = async () => {
@@ -25,6 +26,21 @@ export function LabsList() {
                 }
                 const data = await response.json();
                 setLabs(data);
+
+                //Fetch the current user's data.
+                // This requires a protected backend route that returns the user's details.
+                const token = localStorage.getItem('token');
+                if (token) {
+                    const userResponse = await fetch("http://localhost:5000/api/users/profile", { // Assuming you have a route like this
+                        headers: {
+                            "Authorization": `Bearer ${token}`
+                        }
+                    });
+                    if (userResponse.ok) {
+                        const userData = await userResponse.json();
+                        setCurrentUser(userData);
+                    }
+                }
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -134,6 +150,7 @@ export function LabsList() {
                 isOpen={isBookingOpen}
                 onClose={handleCloseBooking}
                 lab={selectedLab}
+                user={currentUser}
             />
         </div>
     );
