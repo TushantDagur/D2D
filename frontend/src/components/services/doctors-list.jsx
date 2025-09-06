@@ -5,7 +5,7 @@ import { Badge } from "../ui/badge"
 import { Star, MapPin, Clock, Phone, Video, Navigation } from "lucide-react"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import placeHolder from "../../assets/placeholder.svg"
+import placeHolder from "../../assets/maleDoctorPlaceholder.png"
 import DoctorBooking from "../bookings/doctor-booking";
 
 

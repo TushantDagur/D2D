@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { toast } from 'react-toastify';
-import placeHolder from "../../assets/placeholder.svg";
+import placeHolder from "../../assets/maleDoctorPlaceholder.png";
 
 export default function DoctorBooking({ isOpen, onClose, doctor, user }) {
     // State for the form fields
