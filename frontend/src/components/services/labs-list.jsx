@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { LabBooking } from "../bookings/lab-booking";
 
+
 export function LabsList() {
     const [labs, setLabs] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -48,15 +49,17 @@ export function LabsList() {
                 setLoading(false);
             }
         };
-
         fetchData();
     }, []);
 
+    // Function to open the booking modal
     const handleBookTest = (lab) => {
         setSelectedLab(lab);
         setIsBookingOpen(true);
     };
 
+
+    // Function to close the booking modal
     const handleCloseBooking = () => {
         setIsBookingOpen(false);
         setSelectedLab(null);
